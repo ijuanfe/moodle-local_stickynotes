@@ -25,4 +25,4 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_stickynotes'; // Full frankenstyle component name in the form of plugintype_pluginname.
-$plugin->version = 2022030400; // Version number of the plugin YYYYMMDDXX.
+$plugin->version = 2022032400; // Version number of the plugin YYYYMMDDXX.

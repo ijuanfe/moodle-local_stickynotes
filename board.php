@@ -42,7 +42,8 @@ $mform->display();
 if ($fromform = $mform->get_data()) {
     $params = array(
             'note'          => $fromform->ta_note,
-            'timecreated'   => time()
+            'timecreated'   => time(),
+            'userid'        => $USER->id
     );
     $DB->insert_record('local_stickynotes_notes', $params);
 }

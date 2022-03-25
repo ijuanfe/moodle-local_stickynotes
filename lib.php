@@ -66,11 +66,17 @@ function local_stickynotes_extend_navigation_frontpage(navigation_node $frontpag
 /**
  * Return all the sticky notes stored in the database.
  *
- * @return array
+ * @return array of sticky notes as objects sorted in ascending order by creation time
  */
 function get_stickynotes() {
     global $DB;
-    $allstickynotes = $DB->get_records('local_stickynotes_notes');
+
+    $sql = "SELECT sn.id, sn.note, sn.timecreated, u.username
+                FROM {local_stickynotes_notes} sn
+                LEFT JOIN {user} u ON sn.userid = u.id
+                ORDER BY sn.timecreated ASC";
+
+    $allstickynotes = $DB->get_records_sql($sql);
     $allstickynotes = array_values($allstickynotes);
 
     foreach ($allstickynotes as $stickynote) {
