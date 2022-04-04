@@ -23,7 +23,12 @@
  */
 
 require(__DIR__ . '/../../config.php');
+
 require_login();
+
+if (isguestuser()) {
+    throw new moodle_exception('noguest');
+}
 
 // Page configuration.
 $PAGE->set_url(new moodle_url('/local/stickynotes/board.php'));
@@ -32,9 +37,15 @@ $PAGE->requires->css('/local/stickynotes/styles/styles.css');
 $PAGE->set_title(get_string('stickynotesboard', 'local_stickynotes'));
 $PAGE->set_heading(get_string('stickynotesboard', 'local_stickynotes', 'Juan'));
 $PAGE->set_pagelayout('standard');
+$PAGE->requires->js_call_amd('local_stickynotes/clean_form', 'init');
 
 // Outputting page.
 echo $OUTPUT->header();
+
+echo html_writer::img($OUTPUT->image_url('free_speech', 'local_stickynotes'), get_string('free_speech_alt', 'local_stickynotes'),
+        ['style' => 'display: block; margin: 0 auto; width:600px ;height:250px;']);
+echo html_writer::tag('p', get_string('free_speech_img_src', 'local_stickynotes'), ['style' => 'text-align: center']);
+echo html_writer::start_tag('br');
 
 $mform = new local_stickynotes\form\note_form();
 $mform->display();
@@ -51,7 +62,6 @@ if ($fromform = $mform->get_data()) {
 // Display sticky notes on the board.
 $allstickynotes = get_stickynotes();
 $templatecontext = array(
-        'hasdata' => true,
         'stickynotes' => $allstickynotes
 );
 

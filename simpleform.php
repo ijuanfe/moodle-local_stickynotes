@@ -30,7 +30,7 @@ $PAGE->set_url(new moodle_url('/local/stickynotes/simpleform.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('Page title');
 $username = 'Juan';
-$PAGE->set_heading(get_string('grettinguser', 'local_stickynotes', $username));
+$PAGE->set_heading(get_string('pluginname', 'local_stickynotes', $username));
 $PAGE->set_pagelayout('standard');
 
 // Outputting page.
@@ -39,12 +39,14 @@ $userinput = optional_param('name', 'World', PARAM_TEXT);
 
 // Page logic.
 echo '<h1>Hello '. $userinput . '!</h1>';
+
 if ($userinput != 'World') {
-    $homepage = new moodle_url('/index.php');
-    $pluginpage = new moodle_url('/local/stickynotes/simpleform.php');
+    $settingspage = new moodle_url('/admin/settings.php?section=managelocalstickynotes');
+    $boardpage = new moodle_url('/local/stickynotes/board.php');
     echo '<ul>
-  <li><a href=' . $homepage . '>Go to the site front page</a></li>
-  <li><a href=' . $pluginpage . '>Back to the Sticky Notes main page</a></li>';
+  <li><a href=' . $settingspage . '>' .get_string('pluginsettings', 'local_stickynotes') . '</a></li>
+  <li><a href=' . $boardpage . '>' . get_string('stickynotesboard', 'local_stickynotes') . '</a></li>';
+
 } else {
     $now = time();
     echo userdate($now);

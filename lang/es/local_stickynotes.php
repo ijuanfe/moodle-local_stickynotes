@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'local_stickynotes', language 'en'
+ * Strings for component 'local_stickynotes', language 'es'
  *
  * @package    local_stickynotes
  * @category   string
@@ -24,20 +24,20 @@
  */
 
 // Settings.
-$string['pluginname'] = 'Sticky Notes';
-$string['showinnavigation'] = 'Show in navigation drawer';
-$string['showinnavigation_desc'] = 'When enabled, the site navigation drawer will display a link to access the Sticky Notes plugin main page.';
+$string['pluginname'] = 'Notas Adhesivas';
+$string['showinnavigation'] = 'Mostrar en el menú de navegación';
+$string['showinnavigation_desc'] = 'Cuando está habilitado, el menú de navegación del sitio mostrará un enlace para acceder a la página principal de la extensión Notas Adhesivas.';
 
 // Index.
-$string['pluginsettings'] = 'Plugin settings page';
-$string['stickynotesboard'] = 'Sticky Notes board';
+$string['pluginsettings'] = 'Página de configuración de la extensión';
+$string['stickynotesboard'] = 'Tablero de las Notas Adhesivas';
 
 // Sticky Notes board.
-$string['note'] = 'Type the note you want to post on the board.';
+$string['note'] = 'Escribe la nota que quieres publicar en el tablero.';
 $string['note_ta_placeholder'] = 'Type your note here..';
-$string['notehelp'] = 'Notes.';
+$string['notehelp'] = 'Notas.';
 $string['notehelp_help'] = 'You should type here the note message that you want to post on the board.';
 $string['notehelp_link'] = 'mod/workshop/submission';
 $string['notehelp_desc'] = 'Help note description.';
-$string['free_speech_alt'] = 'Free speech';
-$string['free_speech_img_src'] = '(Source: https://news.yale.edu/sites/default/files/styles/featured_media/public/free-speech-poynter-ynews.jpg)';
+$string['free_speech_alt'] = 'Libertad de expresión';
+$string['free_speech_img_src'] = '(Fuente: https://news.yale.edu/sites/default/files/styles/featured_media/public/free-speech-poynter-ynews.jpg)';

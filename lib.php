@@ -30,18 +30,20 @@
  */
 function local_stickynotes_extend_navigation(global_navigation $root) {
 
-    if (get_config('local_stickynotes', 'showinnavigationdrawer')) {
-        $node = navigation_node::create(
-                get_string('pluginname', 'local_stickynotes'),
-                new moodle_url('/local/stickynotes/index.php'),
-                navigation_node::TYPE_CUSTOM,
-                null,
-                null,
-                new pix_icon('t/message', '')
-        );
-        $node->showinflatnavigation = true;
+    if (isloggedin() and !isguestuser()) {
+        if (get_config('local_stickynotes', 'showinnavigationdrawer')) {
+            $node = navigation_node::create(
+                    get_string('pluginname', 'local_stickynotes'),
+                    new moodle_url('/local/stickynotes/index.php'),
+                    navigation_node::TYPE_CUSTOM,
+                    null,
+                    null,
+                    new pix_icon('t/message', '')
+            );
+            $node->showinflatnavigation = true;
 
-        $root->add_node($node);
+            $root->add_node($node);
+        }
     }
 }
 

@@ -37,7 +37,8 @@ class note_form extends moodleform {
     public function definition() {
         $mform = & $this->_form;
 
-        $mform->addElement('textarea', 'ta_note', get_string('note', 'local_stickynotes'), 'rows="10" cols="200"');
+        $mform->addElement('textarea', 'ta_note', get_string('note', 'local_stickynotes'),
+                'rows="10" cols="200" placeholder="' . get_string('note_ta_placeholder', 'local_stickynotes') . '"');
         $mform->setType('ta_note', PARAM_TEXT);
         $mform->addHelpButton('ta_note', 'notehelp', 'local_stickynotes');
 
