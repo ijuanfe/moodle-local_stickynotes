@@ -23,6 +23,8 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 // Settings.
 $string['pluginname'] = 'Sticky Notes';
 $string['showinnavigation'] = 'Show in navigation drawer';
@@ -30,7 +32,8 @@ $string['showinnavigation_desc'] = 'When enabled, the site navigation drawer wil
 
 // Index.
 $string['pluginsettings'] = 'Plugin settings page';
-$string['stickynotesboard'] = 'Sticky Notes board';
+$string['freespeech'] = 'Free Speech board';
+$string['brainstorm'] = 'Brainstorm board';
 
 // Sticky Notes board.
 $string['note'] = 'Type the note you want to post on the board.';
@@ -41,3 +44,5 @@ $string['notehelp_link'] = 'mod/workshop/submission';
 $string['notehelp_desc'] = 'Help note description.';
 $string['free_speech_alt'] = 'Free speech';
 $string['free_speech_img_src'] = '(Source: https://news.yale.edu/sites/default/files/styles/featured_media/public/free-speech-poynter-ynews.jpg)';
+$string['brainstorm_alt'] = 'Brainstorm';
+$string['brainstorm_img_src'] = '(Source: https://hygger.io/wp-content/uploads/2018/02/e8f101bb633b57f845760cf6f3d6e622.jpg)';

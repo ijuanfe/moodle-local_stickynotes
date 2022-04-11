@@ -23,6 +23,8 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 // Settings.
 $string['pluginname'] = 'Notas Adhesivas';
 $string['showinnavigation'] = 'Mostrar en el menú de navegación';
@@ -30,7 +32,8 @@ $string['showinnavigation_desc'] = 'Cuando está habilitado, el menú de navegac
 
 // Index.
 $string['pluginsettings'] = 'Página de configuración de la extensión';
-$string['stickynotesboard'] = 'Tablero de las Notas Adhesivas';
+$string['freespeech'] = 'Tablero de Libertad de Expresión';
+$string['brainstorm'] = 'Tablero de Lluvia de Ideas';
 
 // Sticky Notes board.
 $string['note'] = 'Escribe la nota que quieres publicar en el tablero.';
@@ -41,3 +44,5 @@ $string['notehelp_link'] = 'mod/workshop/submission';
 $string['notehelp_desc'] = 'Help note description.';
 $string['free_speech_alt'] = 'Libertad de expresión';
 $string['free_speech_img_src'] = '(Fuente: https://news.yale.edu/sites/default/files/styles/featured_media/public/free-speech-poynter-ynews.jpg)';
+$string['brainstorm_alt'] = 'Lluvia de ideas';
+$string['brainstorm_img_src'] = '(Source: https://hygger.io/wp-content/uploads/2018/02/e8f101bb633b57f845760cf6f3d6e622.jpg)';

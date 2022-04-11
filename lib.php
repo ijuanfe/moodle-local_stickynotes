@@ -66,17 +66,34 @@ function local_stickynotes_extend_navigation_frontpage(navigation_node $frontpag
 }
 
 /**
- * Return all the sticky notes stored in the database.
+ * Insert a sticky note in the database: all features.
+ *
+ * @param object $userinput Submitted note content from the form
+ * @return void
+ */
+function local_stickynotes_insert_stickynote($userinput): void {
+    global $DB, $USER;
+
+    $params = array(
+            'content'       => $userinput->notecontent,
+            'timecreated'   => time(),
+            'userid'        => $USER->id
+    );
+    $DB->insert_record('local_stickynotes_note', $params);
+}
+
+/**
+ * Return all the sticky notes stored in the database: Free Speech feature.
  *
  * @return array of sticky notes as objects sorted in ascending order by creation time
  */
-function get_stickynotes() {
+function local_stickynotes_get_stickynotes_freespeech() {
     global $DB;
 
-    $sql = "SELECT sn.id, sn.note, sn.timecreated, u.username
-                FROM {local_stickynotes_notes} sn
-                LEFT JOIN {user} u ON sn.userid = u.id
-                ORDER BY sn.timecreated ASC";
+    $sql = "SELECT snn.id, snn.content, snn.timecreated, u.username
+            FROM {local_stickynotes_note} snn
+            LEFT JOIN {user} u ON snn.userid = u.id
+            ORDER BY snn.timecreated ASC";
 
     $allstickynotes = $DB->get_records_sql($sql);
     $allstickynotes = array_values($allstickynotes);
@@ -85,4 +102,63 @@ function get_stickynotes() {
         $stickynote->timecreated = format_time($stickynote->timecreated - time());
     }
     return $allstickynotes;
+}
+
+/**
+ * Return all the sticky notes stored in the database: Brainstorm feature.
+ *
+ * @return array of sticky notes as objects sorted in ascending order by most liked
+ */
+function local_stickynotes_get_stickynotes_brainstorm() {
+    global $DB;
+
+    $sql = "SELECT snn.id, snn.content, COUNT(snl.id) AS likes
+            FROM {local_stickynotes_note} snn
+            LEFT JOIN {local_stickynotes_like} snl
+            ON snn.id = snl.noteid
+            LEFT JOIN {user} u
+            ON snl.userid = u.id
+            GROUP BY snn.id
+            ORDER BY likes DESC";
+
+    $allstickynotes = $DB->get_records_sql($sql);
+    $allstickynotes = array_values($allstickynotes);
+
+    return $allstickynotes;
+}
+
+/**
+ * Insert a liked sticky note in the database: Brainstorm feature.
+ *
+ * @param int $stickynoteid Sticky Note ID that is going to be liked
+ * @return void
+ */
+function local_stickynotes_like($stickynoteid): void {
+    global $DB, $USER;
+
+    $sqlparams = array(
+            'stickynoteid' => $stickynoteid,
+            'stickynoteid2' => $stickynoteid,
+            'stickynoteid3' => $stickynoteid,
+            'usersessionid' => $USER->id,
+            'usersessionid2' => $USER->id
+    );
+
+    $sql = "INSERT INTO {local_stickynotes_like} (userid, noteid)
+                SELECT :usersessionid , :stickynoteid
+                FROM {local_stickynotes_note}
+                WHERE EXISTS (
+                    SELECT id
+                    FROM {local_stickynotes_note}
+                    WHERE id = :stickynoteid2
+                )
+                AND NOT EXISTS (
+                    SELECT id
+                    FROM {local_stickynotes_like}
+                    WHERE userid = :usersessionid2 AND noteid = :stickynoteid3
+                )
+                LIMIT 1";
+
+    // Insert the liked sticky note in the DB.
+    $DB->execute($sql, $sqlparams);
 }

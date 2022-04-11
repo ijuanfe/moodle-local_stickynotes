@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Sticky notes board.
+ * Sticky notes board: Brainstorm feature.
  *
  * @package    local_stickynotes
  * @copyright  2022 Juan Felipe Orozco Escobar
@@ -31,40 +31,36 @@ if (isguestuser()) {
 }
 
 // Page configuration.
-$PAGE->set_url(new moodle_url('/local/stickynotes/board.php'));
+$PAGE->set_url(new moodle_url('/local/stickynotes/brainstorm.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->requires->css('/local/stickynotes/styles/styles.css');
-$PAGE->set_title(get_string('stickynotesboard', 'local_stickynotes'));
-$PAGE->set_heading(get_string('stickynotesboard', 'local_stickynotes', 'Juan'));
+$PAGE->set_title(get_string('brainstorm', 'local_stickynotes'));
+$PAGE->set_heading(get_string('brainstorm', 'local_stickynotes'));
 $PAGE->set_pagelayout('standard');
 $PAGE->requires->js_call_amd('local_stickynotes/clean_form', 'init');
 
-// Outputting page.
+// Rendering page.
 echo $OUTPUT->header();
 
-echo html_writer::img($OUTPUT->image_url('free_speech', 'local_stickynotes'), get_string('free_speech_alt', 'local_stickynotes'),
+echo html_writer::img($OUTPUT->image_url('brainstorm', 'local_stickynotes'), get_string('brainstorm_alt', 'local_stickynotes'),
         ['style' => 'display: block; margin: 0 auto; width:600px ;height:250px;']);
-echo html_writer::tag('p', get_string('free_speech_img_src', 'local_stickynotes'), ['style' => 'text-align: center']);
+echo html_writer::tag('p', get_string('brainstorm_img_src', 'local_stickynotes'), ['style' => 'text-align: center']);
 echo html_writer::start_tag('br');
 
 $mform = new local_stickynotes\form\note_form();
 $mform->display();
 
-if ($fromform = $mform->get_data()) {
-    $params = array(
-            'note'          => $fromform->ta_note,
-            'timecreated'   => time(),
-            'userid'        => $USER->id
-    );
-    $DB->insert_record('local_stickynotes_notes', $params);
+if ($userinput = $mform->get_data()) {
+    local_stickynotes_insert_stickynote($userinput);
 }
 
-// Display sticky notes on the board.
-$allstickynotes = get_stickynotes();
+$allstickynotes = local_stickynotes_get_stickynotes_brainstorm();
+$likeurl = 'like.php?stickynoteid=';
 $templatecontext = array(
-        'stickynotes' => $allstickynotes
+        'stickynotes'   => $allstickynotes,
+        'likeurl'       => $likeurl
 );
 
-echo $OUTPUT->render_from_template('local_stickynotes/stickynotes_board', $templatecontext);
+echo $OUTPUT->render_from_template('local_stickynotes/brainstorm_board', $templatecontext);
 
 echo $OUTPUT->footer();

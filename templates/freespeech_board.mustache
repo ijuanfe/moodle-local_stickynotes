@@ -1,0 +1,61 @@
+{{!
+    This file is part of Moodle - https://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_stickynotes/stickynotes_board
+
+    Sticky notes board.
+
+    The purpose of this template is to render the sticky notes on a board.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * hasdata, stickynotes
+
+    Example context (json):
+    {
+        "hasdata" => true,
+        "stickynotes" => array(
+            {
+                "note" => "This is a note.",
+                "timecreated" => "1 hour 21 mins"
+            },
+            {
+                "note" => "This another note.",
+                "timecreated" => "28 mins 40 secs"
+            }
+        )
+    }
+}}
+
+<div class="card-columns">
+    {{#stickynotes}}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{username}}</h5>
+                <p class="card-text">{{content}}</p>
+            </div>
+            <div class="card-footer timecreated">
+                <p class="card-text"><small class="text-muted">{{timecreated}}</small></p>
+            </div>
+        </div>
+    {{/stickynotes}}
+</div>

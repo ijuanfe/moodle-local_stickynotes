@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Sticky Notes index page.
+ * Sticky notes board: Free Speech feature.
  *
  * @package    local_stickynotes
  * @copyright  2022 Juan Felipe Orozco Escobar
@@ -31,25 +31,34 @@ if (isguestuser()) {
 }
 
 // Page configuration.
-$PAGE->set_url(new moodle_url('/local/stickynotes/index.php'));
+$PAGE->set_url(new moodle_url('/local/stickynotes/freespeech.php'));
 $PAGE->set_context(context_system::instance());
-$PAGE->set_title(get_string('pluginname', 'local_stickynotes'));
-$PAGE->set_heading(get_string('pluginname', 'local_stickynotes'));
+$PAGE->requires->css('/local/stickynotes/styles/styles.css');
+$PAGE->set_title(get_string('freespeech', 'local_stickynotes'));
+$PAGE->set_heading(get_string('freespeech', 'local_stickynotes'));
 $PAGE->set_pagelayout('standard');
+$PAGE->requires->js_call_amd('local_stickynotes/clean_form', 'init');
 
 // Rendering page.
 echo $OUTPUT->header();
 
-$pluginsettingsurl = new moodle_url('/admin/settings.php?section=managelocalstickynotes');
-$freespeechurl = new moodle_url('/local/stickynotes/freespeech.php');
-$brainstormurl = new moodle_url('/local/stickynotes/brainstorm.php');
+echo html_writer::img($OUTPUT->image_url('free_speech', 'local_stickynotes'), get_string('free_speech_alt', 'local_stickynotes'),
+        ['style' => 'display: block; margin: 0 auto; width:600px ;height:250px;']);
+echo html_writer::tag('p', get_string('free_speech_img_src', 'local_stickynotes'), ['style' => 'text-align: center']);
+echo html_writer::start_tag('br');
 
-$pluginsettingpage = html_writer::link($pluginsettingsurl, get_string('pluginsettings', 'local_stickynotes'));
-$freespeechboard = html_writer::link($freespeechurl, get_string('freespeech', 'local_stickynotes'));
-$brainstormboard = html_writer::link($brainstormurl, get_string('brainstorm', 'local_stickynotes'));
+$mform = new local_stickynotes\form\note_form();
+$mform->display();
 
-$itemsli = array($pluginsettingpage, $freespeechboard, $brainstormboard);
+if ($userinput = $mform->get_data()) {
+    local_stickynotes_insert_stickynote($userinput);
+}
 
-echo html_writer::alist($itemsli);
+$allstickynotes = local_stickynotes_get_stickynotes_freespeech();
+$templatecontext = array(
+        'stickynotes' => $allstickynotes
+);
+
+echo $OUTPUT->render_from_template('local_stickynotes/freespeech_board', $templatecontext);
 
 echo $OUTPUT->footer();

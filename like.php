@@ -15,14 +15,29 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Version information.
+ * Sticky notes like feature.
  *
  * @package    local_stickynotes
  * @copyright  2022 Juan Felipe Orozco Escobar
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+require(__DIR__ . '/../../config.php');
+require(__DIR__ . '/lib.php');
 
-$plugin->component = 'local_stickynotes'; // Full frankenstyle component name in the form of plugintype_pluginname.
-$plugin->version = 2022040401; // Version number of the plugin YYYYMMDDXX.
+require_login();
+
+if (isguestuser()) {
+    throw new moodle_exception('noguest');
+}
+
+// Page configuration.
+$PAGE->set_url(new moodle_url('/local/stickynotes/like.php'));
+$PAGE->set_context(context_system::instance());
+
+$stickynoteid = required_param('stickynoteid', PARAM_INT);
+
+if ($stickynoteid) {
+    local_stickynotes_like($stickynoteid);
+}
+redirect(new moodle_url('/local/stickynotes/brainstorm.php'));

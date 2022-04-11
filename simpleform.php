@@ -33,7 +33,7 @@ $username = 'Juan';
 $PAGE->set_heading(get_string('pluginname', 'local_stickynotes', $username));
 $PAGE->set_pagelayout('standard');
 
-// Outputting page.
+// Rendering page.
 echo $OUTPUT->header();
 $userinput = optional_param('name', 'World', PARAM_TEXT);
 
@@ -42,10 +42,10 @@ echo '<h1>Hello '. $userinput . '!</h1>';
 
 if ($userinput != 'World') {
     $settingspage = new moodle_url('/admin/settings.php?section=managelocalstickynotes');
-    $boardpage = new moodle_url('/local/stickynotes/board.php');
+    $boardpage = new moodle_url('/local/stickynotes/freespeech.php');
     echo '<ul>
-  <li><a href=' . $settingspage . '>' .get_string('pluginsettings', 'local_stickynotes') . '</a></li>
-  <li><a href=' . $boardpage . '>' . get_string('stickynotesboard', 'local_stickynotes') . '</a></li>';
+  <li><a href=' . $settingspage . '>' . get_string('pluginsettings', 'local_stickynotes') . '</a></li>
+  <li><a href=' . $boardpage . '>' . get_string('freespeech', 'local_stickynotes') . '</a></li>';
 
 } else {
     $now = time();

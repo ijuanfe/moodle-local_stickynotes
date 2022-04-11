@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/stickynotes/db" VERSION="20220324" COMMENT="XMLDB file for Moodle local/stickynotes"
+<XMLDB PATH="local/stickynotes/db" VERSION="20220404" COMMENT="XMLDB file for Moodle local/stickynotes"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_stickynotes_notes" COMMENT="This table stores sticky notes that are displayed on a board.">
+    <TABLE NAME="local_stickynotes_note" COMMENT="This table stores sticky notes that are displayed on a board.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="note" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The content of the submitted note."/>
-        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The UNIX timestamp of when the note was posted."/>
-        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="User that created the sticky note."/>
+        <FIELD NAME="content" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The content of the note."/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The UNIX timestamp of when the note is posted."/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="User that creates the sticky note."/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="User that created the sticky note."/>
+        <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="local_stickynotes_like" COMMENT="This table stores sticky notes that are liked.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="noteid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="fk_noteid" TYPE="foreign" FIELDS="noteid" REFTABLE="local_stickynotes_note" REFFIELDS="id"/>
       </KEYS>
     </TABLE>
   </TABLES>

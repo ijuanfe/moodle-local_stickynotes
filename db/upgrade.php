@@ -35,22 +35,39 @@ function xmldb_local_stickynotes_upgrade($oldversion) {
 
     if ($oldversion < 2022032400) {
 
-        $table = new xmldb_table('local_stickynotes_notes');
+        $table = new xmldb_table('local_stickynotes_note');
 
-        // Define field userid to be added to local_stickynotes_notes.
-        $field = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '2', 'timecreated');
+        // Define field userid to add to the local_stickynotes_note table.
+        $useridfield = new xmldb_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '2', 'timecreated');
 
-        // Define key fk_userid (foreign) to be added to local_stickynotes_notes.
-        $key = new xmldb_key('fk_userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+        // Define foreign key fkuserid to add to the local_stickynotes_note table.
+        $fkuserid = new xmldb_key('fk_userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
 
-        // Add field userid and foreign key fk_userid.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-            $dbman->add_key($table, $key);
+        // Add field userid and foreign key fkuserid.
+        if (!$dbman->field_exists($table, $useridfield)) {
+            $dbman->add_field($table, $useridfield);
+            $dbman->add_key($table, $fkuserid);
         }
 
         // Stickynotes savepoint reached.
         upgrade_plugin_savepoint(true, 2022032400, 'local', 'stickynotes');
+    }
+
+    if ($oldversion < 2022040401) {
+
+        $table = new xmldb_table('local_stickynotes_like');
+
+        $table->add_field('id', XMLDB_TYPE_INTEGER, 10, null, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $table->add_field('userid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '2', 'id');
+        $table->add_field('noteid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '2', 'userid');
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
+        $table->add_key('fk_userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
+        $table->add_key('fk_noteid', XMLDB_KEY_FOREIGN, ['noteid'], 'local_stickynotes_note', ['id']);
+
+        $dbman->create_table($table);
+
+        // Stickynotes savepoint reached.
+        upgrade_plugin_savepoint(true, 2022040401, 'local', 'stickynotes');
     }
 
     return true;
